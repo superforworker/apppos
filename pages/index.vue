@@ -866,7 +866,8 @@ export default {
       if (existingItem) {
         existingItem.qty += 1
       } else {
-        this.cart.push({ ...product, qty: 1 })
+        this.cart.push({ ...product, qty: 1 ,originalPrice:null,promotionId:null,detail:'',options:[]})
+        console.log('this.cart',this.cart);        
       }
     },
     updateCartQty(index, change) {
