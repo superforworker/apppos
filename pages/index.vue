@@ -847,6 +847,10 @@ export default {
             price: parseFloat(p.price) || 0,
             category: p.category || 'all',
             image: imgUrl,
+            originalPrice: p.price,
+            promotionId: null,
+            detail: '',
+            options: [],
           }
         })
       }
@@ -866,8 +870,11 @@ export default {
       if (existingItem) {
         existingItem.qty += 1
       } else {
-        this.cart.push({ ...product, qty: 1 ,originalPrice:null,promotionId:null,detail:'',options:[]})
-        console.log('this.cart',this.cart);        
+        this.cart.push({
+          ...product,
+          qty: 1,
+        })
+        console.log('this.cart', this.cart)
       }
     },
     updateCartQty(index, change) {
@@ -922,7 +929,8 @@ export default {
     async submitPayment() {
       let received = this.cartGrandTotal
       let change = 0
-
+      const currentTime = this.getCurrentDateTime()
+      const generatedReceiptNo = this.generateReceiptNo()
       if (this.paymentMethod === 'cash') {
         if (this.parsedAmountReceived < this.cartGrandTotal) {
           this.showToast('จำนวนเงินที่รับมาไม่เพียงพอ', 'error')
@@ -1076,12 +1084,12 @@ export default {
       return `NO${year}${month}${day}${hours}${minutes}${seconds}`
     },
     resetOrderAndClose() {
-      this.cart = [];                 // ล้างตะกร้าสินค้า
-      this.searchQuery = '';          // ล้างช่องค้นหา
-      this.memberPhone = '';          // ล้างช่องกรอกเบอร์โทรสมาชิก
-      this.amountReceived = '';       // ล้างช่องรับเงินสด
-      this.paymentModalVisible = false; // ปิด Modal ชำระเงิน
-      this.successModalVisible = false; // รีเซ็ตหน้า Success กลับไปสถานะเริ่มต้น
+      this.cart = [] // ล้างตะกร้าสินค้า
+      this.searchQuery = '' // ล้างช่องค้นหา
+      this.memberPhone = '' // ล้างช่องกรอกเบอร์โทรสมาชิก
+      this.amountReceived = '' // ล้างช่องรับเงินสด
+      this.paymentModalVisible = false // ปิด Modal ชำระเงิน
+      this.successModalVisible = false // รีเซ็ตหน้า Success กลับไปสถานะเริ่มต้น
     },
   },
 }
