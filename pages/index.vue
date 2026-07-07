@@ -639,7 +639,7 @@ export default {
       currentUsername: '',
       companyName: 'SIAMPOS',
       companyInfo: {},
-memberPhone: '',
+      memberPhone: '',
       isLoading: false,
       toasts: [],
       isFullScreen: false,
@@ -959,7 +959,7 @@ memberPhone: '',
         coupon_code: '',
         net_price: this.cartGrandTotal,
       }
-      
+
       this.isLoading = true
       const response = await this.apiRequest('/pos/order', 'POST', payload)
       this.isLoading = false
@@ -1035,41 +1035,53 @@ memberPhone: '',
       this.$refs.categoryBar.scrollLeft = this.scrollLeft - walk
     },
     getCurrentDateTime() {
-    const now = new Date();
-    
-    // แปลงเป็น YYYY-MM-DD HH:mm:ss
-    const pad = (num) => String(num).padStart(2, '0');
-    
-    const year = now.getFullYear();
-    const month = pad(now.getMonth() + 1);
-    const day = pad(now.getDate());
-    const hours = pad(now.getHours());
-    const minutes = pad(now.getMinutes());
-    const seconds = pad(now.getSeconds());
-    
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  },
-  getCurrentDateTime() {
-    const now = new Date();
-    const pad = (num) => String(num).padStart(2, '0');
-    return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
-  },
+      const now = new Date()
 
-  // ฟังก์ชันใหม่สำหรับสร้างเลขที่ใบเสร็จ (NO + YYYYMMDDHHmmss)
-  generateReceiptNo() {
-    const now = new Date();
-    const pad = (num) => String(num).padStart(2, '0');
-    
-    const year = now.getFullYear();
-    const month = pad(now.getMonth() + 1);
-    const day = pad(now.getDate());
-    const hours = pad(now.getHours());
-    const minutes = pad(now.getMinutes());
-    const seconds = pad(now.getSeconds());
-    
-    // ส่งค่ากลับในรูปแบบ NO20260707111230
-    return `NO${year}${month}${day}${hours}${minutes}${seconds}`;
-  },
+      // แปลงเป็น YYYY-MM-DD HH:mm:ss
+      const pad = (num) => String(num).padStart(2, '0')
+
+      const year = now.getFullYear()
+      const month = pad(now.getMonth() + 1)
+      const day = pad(now.getDate())
+      const hours = pad(now.getHours())
+      const minutes = pad(now.getMinutes())
+      const seconds = pad(now.getSeconds())
+
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+    },
+    getCurrentDateTime() {
+      const now = new Date()
+      const pad = (num) => String(num).padStart(2, '0')
+      return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(
+        now.getDate()
+      )} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(
+        now.getSeconds()
+      )}`
+    },
+
+    // ฟังก์ชันใหม่สำหรับสร้างเลขที่ใบเสร็จ (NO + YYYYMMDDHHmmss)
+    generateReceiptNo() {
+      const now = new Date()
+      const pad = (num) => String(num).padStart(2, '0')
+
+      const year = now.getFullYear()
+      const month = pad(now.getMonth() + 1)
+      const day = pad(now.getDate())
+      const hours = pad(now.getHours())
+      const minutes = pad(now.getMinutes())
+      const seconds = pad(now.getSeconds())
+
+      // ส่งค่ากลับในรูปแบบ NO20260707111230
+      return `NO${year}${month}${day}${hours}${minutes}${seconds}`
+    },
+    resetOrderAndClose() {
+      this.cart = [];                 // ล้างตะกร้าสินค้า
+      this.searchQuery = '';          // ล้างช่องค้นหา
+      this.memberPhone = '';          // ล้างช่องกรอกเบอร์โทรสมาชิก
+      this.amountReceived = '';       // ล้างช่องรับเงินสด
+      this.paymentModalVisible = false; // ปิด Modal ชำระเงิน
+      this.successModalVisible = false; // รีเซ็ตหน้า Success กลับไปสถานะเริ่มต้น
+    },
   },
 }
 </script>
