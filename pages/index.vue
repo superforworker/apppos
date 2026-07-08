@@ -468,34 +468,48 @@
 
     <div
       id="receipt-print-area"
-      style="display: none; font-family: sans-serif; line-height: 1.4"
+      style="
+        display: none;
+        font-family: 'Prompt', sans-serif;
+        line-height: 1.4;
+        color: #000;
+      "
     >
       <div
         class="receipt-header"
-        style="text-align: center; margin-bottom: 10px"
+        style="text-align: center; margin-bottom: 5px"
       >
-        <h2 style="margin: 0 0 2px 0; font-size: 16px; font-weight: bold">
-          {{ companyInfo.name || 'SIAMPOS' }}
+        <h2
+          style="
+            margin: 0 0 2px 0;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+          "
+        >
+          {{ companyInfo.name || companyName }}
         </h2>
         <p
           v-if="companyInfo.acc_maincom_name"
-          style="margin: 2px 0; font-size: 13px"
+          style="margin: 2px 0; font-size: 13px; font-weight: bold"
         >
           {{ companyInfo.acc_maincom_name }}
         </p>
-        <p style="margin: 2px 0; font-size: 13px">{{ formattedAddress }}</p>
+        <p style="margin: 2px 0; font-size: 13px; padding: 0 10px">
+          {{ formattedAddress }}
+        </p>
         <p v-if="companyInfo.acc_vat" style="margin: 2px 0; font-size: 13px">
           เลขผู้เสียภาษี {{ companyInfo.acc_vat }}
         </p>
         <p v-if="companyInfo.acc_phone" style="margin: 2px 0; font-size: 13px">
           โทร. {{ companyInfo.acc_phone }}
         </p>
-        <hr
-          style="border: none; border-top: 1px solid #000; margin: 8px 0 4px 0"
-        />
+
+        <div style="border-top: 1px dashed #000; margin: 8px 0 4px 0"></div>
+
         <p
           style="
-            margin: 2px 0;
+            margin: 4px 0;
             font-size: 14px;
             font-weight: bold;
             text-align: center;
@@ -506,7 +520,7 @@
         <p style="margin: 2px 0; font-size: 13px; text-align: left">
           Ref: {{ receiptData.ref }}
         </p>
-        <p style="margin: 4px 0; border-top: 1px dashed #000; height: 0"></p>
+
         <div
           style="
             display: flex;
@@ -515,115 +529,176 @@
             margin-top: 4px;
           "
         >
-          <span style="font-weight: bold">พนักงานขาย</span>
+          <span>พนักงานขาย</span>
           <span>{{ currentUsername }}</span>
         </div>
-        <hr
-          style="border: none; border-top: 1px solid #000; margin: 4px 0 8px 0"
-        />
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-top: 2px;
+          "
+        >
+          <span>วันที่</span>
+          <span>{{ formatThaiDate(receiptData.date) }}</span>
+        </div>
       </div>
+
       <table
         class="receipt-table"
         style="
           width: 100%;
           border-collapse: collapse;
-          margin-bottom: 5px;
-          font-size: 12px;
+          margin-top: 5px;
+          font-size: 13px;
         "
       >
         <thead>
-          <tr>
-            <th style="text-align: left; padding: 2px 0; width: 55%">รายการ</th>
-            <th style="text-align: center; padding: 2px 0; width: 15%">จน.</th>
-            <th style="text-align: right; padding: 2px 0; width: 30%">รวม</th>
+          <tr
+            style="border-top: 1px dashed #000; border-bottom: 1px dashed #000"
+          >
+            <th
+              style="
+                text-align: left;
+                padding: 6px 0;
+                font-weight: bold;
+                width: 55%;
+              "
+            >
+              รายการ
+            </th>
+            <th
+              style="
+                text-align: center;
+                padding: 6px 0;
+                font-weight: bold;
+                width: 15%;
+              "
+            >
+              จน.
+            </th>
+            <th
+              style="
+                text-align: right;
+                padding: 6px 0;
+                font-weight: bold;
+                width: 30%;
+              "
+            >
+              รวม
+            </th>
           </tr>
         </thead>
-        <tbody style="border-top: 1px dashed black">
+        <tbody>
           <tr v-for="item in receiptData.items" :key="item.id">
-            <td class="item-name-col" style="text-align: left; padding: 4px 0">
+            <td
+              class="item-name-col"
+              style="
+                text-align: left;
+                padding: 5px 0;
+                word-break: break-word;
+                line-height: 1.2;
+              "
+            >
               {{ item.name }}
             </td>
-            <td style="text-align: center; padding: 4px 0">{{ item.qty }}</td>
-            <td style="text-align: right; padding: 4px 0">
+            <td style="text-align: center; padding: 5px 0; vertical-align: top">
+              {{ item.qty }}
+            </td>
+            <td style="text-align: right; padding: 5px 0; vertical-align: top">
               {{ (item.price * item.qty).toFixed(2) }}
             </td>
           </tr>
         </tbody>
       </table>
+
       <div
-        style="
-          border-top: 1px dashed black;
-          margin-top: 5px;
-          margin-bottom: 5px;
-        "
-      ></div>
-      <div class="receipt-total-section" style="font-size: 12px">
+        class="receipt-total-section"
+        style="font-size: 13px; margin-top: 5px"
+      >
+        <div style="border-top: 1px dashed #000; margin: 4px 0 6px 0"></div>
+
         <div
           style="
             display: flex;
             justify-content: space-between;
-            margin-bottom: 4px;
-          "
-        >
-          <span>ยอดรวม:</span
-          ><span>{{ receiptData.subtotal?.toFixed(2) }}</span>
-        </div>
-        <div
-          style="
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 4px;
-          "
-        >
-          <span>ภาษี:</span><span>{{ receiptData.vat?.toFixed(2) }}</span>
-        </div>
-        <div
-          style="
-            border-top: 1px dashed black;
-            margin-top: 5px;
             margin-bottom: 5px;
           "
-        ></div>
+        >
+          <span>ยอดรวม / Subtotal:</span>
+          <span>{{ receiptData.subtotal?.toFixed(2) }}</span>
+        </div>
         <div
           style="
             display: flex;
             justify-content: space-between;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
+          "
+        >
+          <span>ภาษี / VAT:</span>
+          <span>{{ receiptData.vat?.toFixed(2) }}</span>
+        </div>
+
+        <div style="border-top: 1px dashed #000; margin: 6px 0"></div>
+
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
             font-weight: bold;
             font-size: 14px;
           "
         >
-          <span>สุทธิ:</span><span>{{ receiptData.total?.toFixed(2) }}</span>
+          <span>สุทธิ / Grand Total:</span>
+          <span>{{ receiptData.total?.toFixed(2) }}</span>
         </div>
         <div
           style="
             display: flex;
             justify-content: space-between;
-            margin-bottom: 4px;
-            margin-top: 5px;
+            margin-bottom: 5px;
           "
         >
-          <span>ช่องทาง:</span><span>{{ receiptData.method }}</span>
+          <span>ช่องทาง / Method:</span>
+          <span>{{ receiptData.method }}</span>
         </div>
         <div
           style="
             display: flex;
             justify-content: space-between;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
           "
         >
-          <span>รับเงิน:</span
-          ><span>{{ receiptData.received?.toFixed(2) }}</span>
+          <span>รับเงิน / Received:</span>
+          <span>{{ receiptData.received?.toFixed(2) }}</span>
         </div>
         <div
           style="
             display: flex;
             justify-content: space-between;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
           "
         >
-          <span>เงินทอน:</span><span>{{ receiptData.change?.toFixed(2) }}</span>
+          <span>เงินทอน / Change:</span>
+          <span>{{ receiptData.change?.toFixed(2) }}</span>
         </div>
+
+        <div style="border-top: 1px dashed #000; margin: 6px 0"></div>
+      </div>
+
+      <div
+        class="receipt-footer"
+        style="
+          text-align: center;
+          font-size: 13px;
+          margin-top: 10px;
+          line-height: 1.3;
+        "
+      >
+        <p style="margin: 0">ขอบคุณที่ใช้บริการ</p>
+        <p style="margin: 0; font-weight: 500">Thank You</p>
       </div>
     </div>
   </div>
@@ -847,7 +922,7 @@ export default {
             price: parseFloat(p.price) || 0,
             category: p.category || 'all',
             image: imgUrl,
-            originalPrice: p.price,
+            originalPrice: parseFloat(p.price) || 0,
             promotionId: null,
             detail: '',
             options: [],
@@ -944,9 +1019,8 @@ export default {
       const orderRef = this.generateOrderRef()
       const payload = {
         post: 1,
-        ref: orderRef,
         chanel_id: 'POS-WEB',
-        tax_id: 'this.companyInfo.acc_vat',
+        tax_id: this.companyInfo.acc_vat,
         time_in: currentTime,
         time_out: currentTime,
         receipt_no: generatedReceiptNo,
@@ -970,7 +1044,7 @@ export default {
       }
 
       this.isLoading = true
-      const response = await this.apiRequest('/pos/order', 'POST', payload)
+      const response = await this.apiRequest('/pos/orders', 'POST', payload)
       this.isLoading = false
 
       if (response.status !== 'success') {
@@ -979,6 +1053,8 @@ export default {
       }
 
       this.showToast('บันทึกข้อมูลการชำระเงินสำเร็จ', 'success')
+
+      // ส่งค่าข้อมูลสำหรับการนำไปออกบิลพิมพ์พิมพ์ (เพิ่มฟิลด์ date เพื่อเก็บเวลาปัจจุบันในการออกใบเสร็จ)
       this.receiptData = {
         ref: orderRef,
         items: [...this.cart],
@@ -988,6 +1064,7 @@ export default {
         method: this.paymentMethod === 'cash' ? 'เงินสด' : 'สแกนจ่าย',
         received: received,
         change: change,
+        date: currentTime,
       }
 
       this.successModalVisible = true
@@ -995,10 +1072,41 @@ export default {
     printReceiptAction() {
       window.print()
     },
-    resetOrderAndClose() {
-      this.cart = []
-      this.searchQuery = ''
-      this.paymentModalVisible = false
+
+    // ย้ายเมธอดแปลงวันที่พุทธศักราชมาใช้งานในเครื่อง
+    formatThaiDate(dateStr) {
+      if (!dateStr) return ''
+      try {
+        const parts = dateStr.split(' ')
+        const dateParts = parts[0].split('-')
+        const timeParts = parts[1].split(':')
+
+        const year = parseInt(dateParts[0]) + 543 // แปลง ค.ศ. เป็น พ.ศ. (+543)
+        const monthInt = parseInt(dateParts[1])
+        const day = parseInt(dateParts[2])
+        const hours = timeParts[0]
+        const minutes = timeParts[1]
+
+        const months = [
+          'ม.ค.',
+          'ก.พ.',
+          'มี.ค.',
+          'เม.ย.',
+          'พ.ค.',
+          'มิ.ย.',
+          'ก.ค.',
+          'ส.ค.',
+          'ก.ย.',
+          'ต.ค.',
+          'พ.ย.',
+          'ธ.ค.',
+        ]
+        const monthName = months[monthInt - 1] || ''
+
+        return `${day} ${monthName} ${year} ${hours}:${minutes}`
+      } catch (e) {
+        return dateStr
+      }
     },
 
     // UI Utilities
@@ -1045,21 +1153,6 @@ export default {
     },
     getCurrentDateTime() {
       const now = new Date()
-
-      // แปลงเป็น YYYY-MM-DD HH:mm:ss
-      const pad = (num) => String(num).padStart(2, '0')
-
-      const year = now.getFullYear()
-      const month = pad(now.getMonth() + 1)
-      const day = pad(now.getDate())
-      const hours = pad(now.getHours())
-      const minutes = pad(now.getMinutes())
-      const seconds = pad(now.getSeconds())
-
-      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
-    },
-    getCurrentDateTime() {
-      const now = new Date()
       const pad = (num) => String(num).padStart(2, '0')
       return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(
         now.getDate()
@@ -1068,7 +1161,7 @@ export default {
       )}`
     },
 
-    // ฟังก์ชันใหม่สำหรับสร้างเลขที่ใบเสร็จ (NO + YYYYMMDDHHmmss)
+    // ฟังก์ชันสำหรับสร้างเลขที่ใบเสร็จ (NO + YYYYMMDDHHmmss)
     generateReceiptNo() {
       const now = new Date()
       const pad = (num) => String(num).padStart(2, '0')
@@ -1080,16 +1173,15 @@ export default {
       const minutes = pad(now.getMinutes())
       const seconds = pad(now.getSeconds())
 
-      // ส่งค่ากลับในรูปแบบ NO20260707111230
       return `NO${year}${month}${day}${hours}${minutes}${seconds}`
     },
     resetOrderAndClose() {
-      this.cart = [] // ล้างตะกร้าสินค้า
-      this.searchQuery = '' // ล้างช่องค้นหา
-      this.memberPhone = '' // ล้างช่องกรอกเบอร์โทรสมาชิก
-      this.amountReceived = '' // ล้างช่องรับเงินสด
-      this.paymentModalVisible = false // ปิด Modal ชำระเงิน
-      this.successModalVisible = false // รีเซ็ตหน้า Success กลับไปสถานะเริ่มต้น
+      this.cart = []
+      this.searchQuery = ''
+      this.memberPhone = ''
+      this.amountReceived = ''
+      this.paymentModalVisible = false
+      this.successModalVisible = false
     },
   },
 }
@@ -1171,25 +1263,58 @@ export default {
   }
 }
 
-/* ปรับซ่อน UI เวลาปริ้นใบเสร็จ (Vue Scoped CSS) */
+/* จัดการหน้าจอพรีวิวและการสั่งพิมพ์ใบเสร็จ */
 @media print {
-  #pos-screen,
-  .modal-overlay,
-  #toast-container,
-  #loading-overlay {
+  /* 1. บังคับขนาดกระดาษให้เป็น 80mm โดยตรง */
+  @page {
+    size: 80mm auto; 
+    margin: 0 !important;
+  }
+
+  /* 2. ซ่อนส่วนประกอบที่ไม่ต้องการของหน้าเว็บ */
+  body, html {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 80mm !important;
+    background: white !important;
+  }
+
+  /* 3. ซ่อน UI ของเว็บ */
+  #pos-screen, .modal-overlay, #toast-container, #loading-overlay {
     display: none !important;
   }
+
+  /* 4. จัดการส่วนใบเสร็จให้ขยายเต็มความกว้างที่ล็อกไว้ */
   #receipt-print-area {
     display: block !important;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 58mm;
-    padding: 0;
-    margin: 0;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 80mm !important;
+    padding: 4mm !important; /* เว้นขอบนิดหน่อย */
+    box-sizing: border-box !important;
+    visibility: visible !important;
   }
-  body {
-    background: white !important;
+
+  #receipt-print-area * {
+    visibility: visible !important;
+    color: #000000 !important;
+  }
+
+  /* 5. ปรับตารางและข้อความให้เต็มพื้นที่ 80mm */
+  .receipt-table {
+    width: 100% !important;
+    table-layout: fixed !important;
+  }
+
+  .receipt-table th, 
+  .receipt-table td, 
+  .receipt-header p,
+  .receipt-header h2,
+  .receipt-total-section {
+    font-size: 13px !important; /* ปรับขนาดฟอนต์ให้เหมาะสมกับ 80mm */
+    font-family: sans-serif !important;
+    word-wrap: break-word !important;
   }
 }
 </style>

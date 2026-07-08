@@ -1012,7 +1012,7 @@ header h1 {
     font-weight: 500;
     transition: all 0.2s;
 }
-@media print {
+/* @media print {
     @page {
         margin: 0;
     }
@@ -1043,4 +1043,4 @@ header h1 {
     .modal-overlay {
         display: none !important;
     }
-}
+} */
