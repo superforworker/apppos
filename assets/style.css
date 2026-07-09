@@ -666,6 +666,11 @@ header h1 {
     position: relative;
     transform: translateY(0);
     animation: slideUp 0.3s ease;
+    
+    /* -- ส่วนที่เพิ่มใหม่เพื่อจำกัดความสูงและไม่ให้ล้นจอ -- */
+    max-height: 100vh; 
+    display: flex;
+    flex-direction: column;
 }
 
 @keyframes slideUp {
@@ -680,20 +685,27 @@ header h1 {
     }
 }
 
-.modal-header {
-    font-size: 1.6rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    color: var(--text-main);
-    border-bottom: 2px solid #f1f5f9;
-    padding-bottom: 1rem;
-}
+
 
 .modal-body {
     margin-bottom: 2rem;
+    
+    /* -- ส่วนที่เพิ่มใหม่เพื่อให้พื้นที่ตรงกลางเลื่อน (Scroll) ได้ -- */
+    overflow-y: auto;
+    flex: 1;
+    padding-right: 8px; /* เว้นระยะขวาไม่ให้เนื้อหาชิด Scrollbar เกินไป */
 }
-
+.modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+.modal-body::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 10px;
+}
+.modal-body::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 10px;
+}
 .payment-row {
     display: flex;
     justify-content: space-between;

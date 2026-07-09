@@ -4,16 +4,6 @@
       <div class="spinner"></div>
     </div>
 
-    <div id="toast-container">
-      <div
-        v-for="toast in toasts"
-        :key="toast.id"
-        :class="['toast', `toast-${toast.type}`]"
-      >
-        {{ toast.message }}
-      </div>
-    </div>
-
     <div id="pos-screen" style="display: flex">
       <header>
         <h1 id="header-title">{{ companyName }}</h1>
@@ -268,8 +258,9 @@
 
     <div class="modal-overlay" v-if="paymentModalVisible" style="display: flex">
       <div class="modal-box">
-        <div v-if="!successModalVisible">
+        <div v-if="!successModalVisible" class="modal-content-wrapper">
           <div class="modal-header">สรุปยอดชำระเงิน</div>
+
           <div class="modal-body">
             <div class="payment-row">
               <span>ยอดรวม (Subtotal):</span>
@@ -283,10 +274,12 @@
               <span>ยอดสุทธิที่ต้องชำระ:</span>
               <span>฿{{ cartGrandTotal.toFixed(2) }}</span>
             </div>
+
             <div
               style="
-                margin-bottom: 0.8rem;
+                margin-bottom: 0.5rem;
                 font-weight: 600;
+                font-size: 0.95rem;
                 color: var(--text-main);
               "
             >
@@ -298,12 +291,12 @@
               placeholder="กรอกเบอร์โทรศัพท์ (ถ้ามี)"
               style="
                 width: 100%;
-                padding: 16px;
-                border-radius: var(--radius-md);
-                border: 2px solid var(--border-color);
-                font-size: 1.1rem;
+                padding: 10px 12px;
+                border-radius: 6px;
+                border: 1px solid var(--border-color);
+                font-size: 1rem;
                 font-family: 'Prompt', sans-serif;
-                margin-bottom: 1.5rem;
+                margin-bottom: 1rem;
                 color: var(--text-main);
                 background-color: #f8fafc;
                 box-sizing: border-box;
@@ -313,10 +306,12 @@
               onfocus="this.style.borderColor='var(--primary-color)'; this.style.backgroundColor='#ffffff';"
               onblur="this.style.borderColor='var(--border-color)'; this.style.backgroundColor='#f8fafc';"
             />
+
             <div
               style="
-                margin-bottom: 0.8rem;
+                margin-bottom: 0.5rem;
                 font-weight: 600;
+                font-size: 0.95rem;
                 color: var(--text-main);
               "
             >
@@ -334,8 +329,9 @@
             <div v-if="paymentMethod === 'cash'">
               <div
                 style="
-                  margin-bottom: 0.8rem;
+                  margin-bottom: 0.5rem;
                   font-weight: 600;
+                  font-size: 0.95rem;
                   color: var(--text-main);
                 "
               >
@@ -353,8 +349,8 @@
                 v-if="isAmountWarning"
                 style="
                   color: var(--danger-color);
-                  font-size: 0.95rem;
-                  margin-top: 8px;
+                  font-size: 0.85rem;
+                  margin-top: 4px;
                   text-align: right;
                   font-weight: 500;
                 "
@@ -364,7 +360,7 @@
 
               <div
                 style="
-                  margin-top: 1.5rem;
+                  margin-top: 1rem;
                   display: flex;
                   flex-direction: column;
                   align-items: flex-end;
@@ -381,21 +377,32 @@
                   <span
                     style="
                       font-weight: 600;
-                      font-size: 1.2rem;
+                      font-size: 1.1rem;
                       color: var(--text-main);
                     "
                     >เงินทอน:</span
                   >
                   <span
                     class="change-display"
-                    :style="{ color: changeAmountColor }"
-                    >฿{{ changeAmount.toFixed(2) }}</span
+                    :style="{
+                      color: changeAmountColor,
+                      fontSize: '1.2rem',
+                      fontWeight: 'bold',
+                    }"
                   >
+                    ฿{{ changeAmount.toFixed(2) }}
+                  </span>
                 </div>
                 <div
                   v-if="changeAmount > 0"
                   class="change-breakdown-box"
-                  style="display: block"
+                  style="
+                    display: block;
+                    font-size: 0.9rem;
+                    margin-top: 8px;
+                    width: 100%;
+                    text-align: right;
+                  "
                   v-html="changeBreakdown"
                 ></div>
               </div>
@@ -407,7 +414,7 @@
                 text-align: center;
                 padding: 1.5rem;
                 background: #f8fafc;
-                border-radius: var(--radius-md);
+                border-radius: 6px;
                 border: 1px dashed #cbd5e1;
               "
             >
@@ -415,13 +422,13 @@
                 style="
                   color: var(--primary-color);
                   font-weight: 600;
-                  font-size: 1.1rem;
+                  font-size: 1.05rem;
                 "
                 >รอสแกนชำระเงิน...</span
               >
               <p
                 style="
-                  font-size: 0.95rem;
+                  font-size: 0.9rem;
                   color: var(--text-muted);
                   margin-top: 8px;
                 "
@@ -431,6 +438,7 @@
               </p>
             </div>
           </div>
+
           <div class="modal-footer">
             <button class="btn-block btn-success" @click="submitPayment">
               ยืนยันการชำระเงิน
@@ -441,15 +449,28 @@
           </div>
         </div>
 
-        <div v-else>
-          <div class="success-screen">
-            <div class="success-icon">✓</div>
-            <h2>ชำระเงินสำเร็จเรียบร้อย</h2>
+        <div v-else class="modal-content-wrapper">
+          <div
+            class="modal-body success-screen"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <div class="success-icon" style="font-size: 3rem; color: #10b981">
+              ✓
+            </div>
+            <h2 style="font-size: 1.25rem; margin-top: 10px">
+              ชำระเงินสำเร็จเรียบร้อย
+            </h2>
             <p
               style="
                 margin: 15px 0;
                 color: var(--text-muted);
-                font-size: 1.05rem;
+                font-size: 0.95rem;
+                text-align: center;
               "
               v-html="successDetailText"
             ></p>
@@ -716,7 +737,6 @@ export default {
       companyInfo: {},
       memberPhone: '',
       isLoading: false,
-      toasts: [],
       isFullScreen: false,
 
       categories: [{ id: 'all', name: 'ทั้งหมด' }],
@@ -872,7 +892,7 @@ export default {
       try {
         const response = await fetch(`${this.apiBaseUrl}${endpoint}`, options)
         if (response.status === 401) {
-          this.showToast('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่', 'error')
+          this.$toast.error('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่')
           setTimeout(() => this.logout(), 1500)
           return { status: 'error', msg: 'Unauthorized' }
         }
@@ -966,14 +986,14 @@ export default {
       if (this.cart.length === 0) return
       if (confirm('ยืนยันการล้างตะกร้าสินค้าทั้งหมด?')) {
         this.cart = []
-        this.showToast('ล้างรายการสั่งซื้อเรียบร้อย', 'warning')
+        this.$toast.warning('ล้างรายการสั่งซื้อเรียบร้อย')
       }
     },
 
     // Checkout Flow
     processCheckout() {
       if (this.cart.length === 0) {
-        this.showToast('ยังไม่มีสินค้าในรายการสั่งซื้อ', 'error')
+        this.$toast.error('ยังไม่มีสินค้าในรายการสั่งซื้อ')
         return
       }
       this.paymentMethod = 'cash'
@@ -1008,7 +1028,7 @@ export default {
       const generatedReceiptNo = this.generateReceiptNo()
       if (this.paymentMethod === 'cash') {
         if (this.parsedAmountReceived < this.cartGrandTotal) {
-          this.showToast('จำนวนเงินที่รับมาไม่เพียงพอ', 'error')
+          this.$toast.error('จำนวนเงินที่รับมาไม่เพียงพอ')
           this.$refs.receivedInput.focus()
           return
         }
@@ -1048,11 +1068,11 @@ export default {
       this.isLoading = false
 
       if (response.status !== 'success') {
-        this.showToast('เกิดข้อผิดพลาดในการบันทึกบิล: ' + response.msg, 'error')
+        this.$toast.error('เกิดข้อผิดพลาดในการบันทึกบิล: ' + response.msg)
         return
       }
 
-      this.showToast('บันทึกข้อมูลการชำระเงินสำเร็จ', 'success')
+      this.$toast.success('บันทึกข้อมูลการชำระเงินสำเร็จ')
 
       // ส่งค่าข้อมูลสำหรับการนำไปออกบิลพิมพ์พิมพ์ (เพิ่มฟิลด์ date เพื่อเก็บเวลาปัจจุบันในการออกใบเสร็จ)
       this.receiptData = {
@@ -1109,14 +1129,6 @@ export default {
       }
     },
 
-    // UI Utilities
-    showToast(message, type = 'success') {
-      const id = Date.now()
-      this.toasts.push({ id, message, type })
-      setTimeout(() => {
-        this.toasts = this.toasts.filter((t) => t.id !== id)
-      }, 3000)
-    },
     logout() {
       localStorage.removeItem('siampos_auth_token')
       localStorage.removeItem('siampos_company')
@@ -1222,26 +1234,6 @@ export default {
   }
 }
 
-#toast-container {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 10000;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.toast {
-  min-width: 250px;
-  padding: 12px 20px;
-  border-radius: 8px;
-  color: white;
-  font-family: 'Prompt', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 500;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  animation: slideIn 0.3s forwards;
-}
 .toast-success {
   background-color: #10b981;
 }
@@ -1252,69 +1244,145 @@ export default {
   background-color: #f59e0b;
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 /* จัดการหน้าจอพรีวิวและการสั่งพิมพ์ใบเสร็จ */
+/* --- แทนที่ @media print เดิมทั้งหมดด้วยชุดนี้ --- */
 @media print {
-  /* 1. บังคับขนาดกระดาษให้เป็น 80mm โดยตรง */
-  @page {
-    size: 80mm auto; 
-    margin: 0 !important;
-  }
-
-  /* 2. ซ่อนส่วนประกอบที่ไม่ต้องการของหน้าเว็บ */
-  body, html {
+  /* 1. ยกเลิกรูปแบบ Flexbox และความสูงของหน้าจอหลัก เพื่อไม่ให้ใบเสร็จไปกระจุกตรงกลาง */
+  html,
+  body,
+  .pos-wrapper {
+    display: block !important;
+    height: auto !important;
     margin: 0 !important;
     padding: 0 !important;
-    width: 80mm !important;
     background: white !important;
   }
 
-  /* 3. ซ่อน UI ของเว็บ */
-  #pos-screen, .modal-overlay, #toast-container, #loading-overlay {
+  /* 2. ซ่อน UI ระบบทั้งหมด */
+  #pos-screen,
+  .modal-overlay,
+  #toast-container,
+  #loading-overlay {
     display: none !important;
   }
 
-  /* 4. จัดการส่วนใบเสร็จให้ขยายเต็มความกว้างที่ล็อกไว้ */
+  /* 3. ตั้งค่าพื้นที่พิมพ์ใบเสร็จให้อยู่บนสุด และกว้างเต็มหน้ากระดาษที่เลือก */
   #receipt-print-area {
     display: block !important;
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 80mm !important;
-    padding: 4mm !important; /* เว้นขอบนิดหน่อย */
+    position: static !important; /* ให้ไหลไปตามลำดับปกติ (ชิดซ้ายบน) */
+    width: 100% !important; /* ให้เต็มความกว้างของกระดาษ 80mm */
+    margin: 0 !important;
+    padding: 2mm 4mm !important; /* เว้นขอบซ้ายขวานิดหน่อยให้อ่านง่าย */
     box-sizing: border-box !important;
-    visibility: visible !important;
   }
 
+  /* 4. ปรับขนาดฟอนต์ให้ใหญ่ขึ้นและชัดเจนขึ้น */
+  #receipt-print-area,
   #receipt-print-area * {
-    visibility: visible !important;
     color: #000000 !important;
+    font-family: 'Prompt', sans-serif !important;
+    visibility: visible !important;
   }
 
-  /* 5. ปรับตารางและข้อความให้เต็มพื้นที่ 80mm */
+  .receipt-header h2 {
+    font-size: 18px !important;
+  }
+
+  .receipt-header p,
+  .receipt-table th,
+  .receipt-table td,
+  .receipt-total-section,
+  .receipt-footer {
+    font-size: 14px !important;
+  }
+
   .receipt-table {
     width: 100% !important;
     table-layout: fixed !important;
   }
 
-  .receipt-table th, 
-  .receipt-table td, 
-  .receipt-header p,
-  .receipt-header h2,
-  .receipt-total-section {
-    font-size: 13px !important; /* ปรับขนาดฟอนต์ให้เหมาะสมกับ 80mm */
-    font-family: sans-serif !important;
-    word-wrap: break-word !important;
+  /* 5. ปล่อยให้เครื่องปริ้นจัดการความยาวหน้ากระดาษเอง */
+  @page {
+    margin: 0;
   }
+}
+/* --- ชุดคำสั่งแก้ไข Modal ให้สมดุลและแสดง Scrollbar ได้อย่างถูกต้อง --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(2px);
+}
+
+.modal-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* ให้ยืดเต็มพื้นที่ของ modal-box */
+  min-height: 0; /* จุดสำคัญ: บังคับให้เกิด Scrollbar ไม่ให้ดันกล่องทะลุจอ */
+}
+
+.modal-header {
+  padding: 15px 20px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  flex-shrink: 0; /* ห้ามส่วนหัวถูกบีบ */
+}
+
+.modal-body {
+  padding: 20px;
+  overflow-y: auto; /* ให้มี Scrollbar แนวตั้ง */
+  flex: 1; /* ให้ใช้พื้นที่ตรงกลางทั้งหมด */
+  min-height: 0; /* จุดสำคัญ: อนุญาตให้ย่อตัวได้เพื่อแสดง Scroll */
+}
+
+.modal-footer {
+  padding: 15px 20px;
+  border-top: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  flex-shrink: 0; /* ห้ามส่วนท้ายถูกบีบจนปุ่มแหว่ง */
+  display: flex;
+  flex-direction: column; /* เปลี่ยนให้ปุ่มเรียงจากบนลงล่างตามในรูป */
+  gap: 10px;
+}
+
+.modal-footer button {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  font-family: 'Prompt', sans-serif;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.modal-footer button:hover {
+  opacity: 0.9;
+}
+
+/* ปรับแต่ง Scrollbar ให้ดูสวยงาม (สำหรับ Webkit browsers) */
+.modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-body::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+.modal-body::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 </style>

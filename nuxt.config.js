@@ -26,7 +26,8 @@ export default {
 
   // Plugins to run before rendering page
   plugins: [
-    '~/plugins/api.js'
+    '~/plugins/api.js',
+    '~/plugins/main.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
