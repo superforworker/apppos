@@ -22,61 +22,32 @@
         <div class="products-area">
           <div class="control-panel">
             <div class="search-box">
-              <input
-                type="text"
-                v-model="searchQuery"
-                class="search-input"
-                placeholder="🔍 ค้นหาสินค้า..."
-              />
+              <input type="text" v-model="searchQuery" class="search-input" placeholder="🔍 ค้นหาสินค้า..." />
             </div>
 
-            <div
-              class="category-bar"
-              ref="categoryBar"
-              @mousedown="startDrag"
-              @mouseleave="endDrag"
-              @mouseup="endDrag"
-              @mousemove="onDrag"
-            >
-              <button
-                v-for="cat in categories"
-                :key="cat.id"
-                :class="[
-                  'category-btn',
-                  { active: currentCategory === cat.id },
-                ]"
-                @click="currentCategory = cat.id"
-              >
+            <div class="category-bar" ref="categoryBar" @mousedown="startDrag" @mouseleave="endDrag" @mouseup="endDrag"
+              @mousemove="onDrag">
+              <button v-for="cat in categories" :key="cat.id" :class="[
+                'category-btn',
+                { active: currentCategory === cat.id },
+              ]" @click="currentCategory = cat.id">
                 {{ cat.name }}
               </button>
             </div>
           </div>
 
           <div class="products-section">
-            <div
-              v-if="filteredProducts.length === 0"
-              style="
+            <div v-if="filteredProducts.length === 0" style="
                 grid-column: 1 / -1;
                 text-align: center;
                 color: var(--text-muted);
                 padding: 2rem;
-              "
-            >
+              ">
               ไม่พบสินค้าที่ค้นหา
             </div>
-            <div
-              v-else
-              v-for="product in filteredProducts"
-              :key="product.id"
-              class="product-card"
-              @click="addToCart(product)"
-            >
-              <img
-                :src="product.image"
-                :alt="product.name"
-                class="product-image"
-                loading="lazy"
-              />
+            <div v-else v-for="product in filteredProducts" :key="product.id" class="product-card"
+              @click="addToCart(product)">
+              <img :src="product.image" :alt="product.name" class="product-image" loading="lazy" />
               <h3>{{ product.name }}</h3>
               <p>฿{{ product.price.toFixed(2) }}</p>
             </div>
@@ -84,14 +55,11 @@
         </div>
 
         <div class="cart-section">
-          <div
-            class="cart-header"
-            style="
+          <div class="cart-header" style="
               display: flex;
               justify-content: space-between;
               align-items: center;
-            "
-          >
+            ">
             <span>รายการสั่งซื้อปัจจุบัน</span>
             <button class="btn-clear-cart" @click="clearCart">
               ล้างตะกร้า
@@ -99,40 +67,29 @@
           </div>
 
           <div class="cart-items">
-            <div
-              v-for="(item, index) in cart"
-              :key="item.id"
-              class="cart-item"
-              style="
+            <div v-for="(item, index) in cart" :key="item.id" class="cart-item" style="
                 background: var(--bg-main);
                 border: 1px solid var(--border-color);
                 border-radius: var(--radius-md);
                 padding: 10px;
                 margin-bottom: 10px;
-              "
-            >
-              <div
-                style="
+              ">
+              <div style="
                   display: flex;
                   gap: 12px;
                   margin-bottom: 10px;
                   align-items: flex-start;
-                "
-              >
-                <img
-                  :src="item.image"
-                  style="
+                ">
+                <img :src="item.image" style="
                     width: 45px;
                     height: 45px;
                     object-fit: cover;
                     border-radius: 6px;
                     border: 1px solid #cbd5e1;
                     flex-shrink: 0;
-                  "
-                />
+                  " />
                 <div style="flex: 1; min-width: 0">
-                  <strong
-                    style="
+                  <strong style="
                       color: #0f172a;
                       display: block;
                       font-size: 0.95rem;
@@ -140,48 +97,35 @@
                       word-break: break-word;
                       line-height: 1.2;
                       margin-bottom: 4px;
-                    "
-                    >{{ item.name }}</strong
-                  >
-                  <span style="font-size: 0.85rem; color: #64748b"
-                    >฿{{ item.price.toFixed(2) }} / ชิ้น</span
-                  >
+                    ">{{ item.name }}</strong>
+                  <span style="font-size: 0.85rem; color: #64748b">฿{{ item.price.toFixed(2) }} / ชิ้น</span>
                 </div>
-                <button
-                  @click="removeFromCart(index)"
-                  style="
+                <button @click="removeFromCart(index)" style="
                     background: none;
                     border: none;
                     color: #94a3b8;
                     font-size: 1.2rem;
                     cursor: pointer;
                     padding: 0 5px;
-                  "
-                >
+                  ">
                   ✕
                 </button>
               </div>
-              <div
-                style="
+              <div style="
                   display: flex;
                   justify-content: space-between;
                   align-items: center;
                   border-top: 1px dashed #e2e8f0;
                   padding-top: 8px;
-                "
-              >
-                <div
-                  style="
+                ">
+                <div style="
                     display: flex;
                     align-items: center;
                     border: 1px solid #cbd5e1;
                     border-radius: 6px;
                     overflow: hidden;
-                  "
-                >
-                  <button
-                    @click="updateCartQty(index, -1)"
-                    style="
+                  ">
+                  <button @click="updateCartQty(index, -1)" style="
                       background: #f1f5f9;
                       border: none;
                       width: 30px;
@@ -189,12 +133,10 @@
                       font-weight: bold;
                       cursor: pointer;
                       color: #0f172a;
-                    "
-                  >
+                    ">
                     -
                   </button>
-                  <span
-                    style="
+                  <span style="
                       width: 35px;
                       text-align: center;
                       font-weight: 600;
@@ -202,12 +144,8 @@
                       color: #0f172a;
                       background: #ffffff;
                       line-height: 30px;
-                    "
-                    >{{ item.qty }}</span
-                  >
-                  <button
-                    @click="updateCartQty(index, 1)"
-                    style="
+                    ">{{ item.qty }}</span>
+                  <button @click="updateCartQty(index, 1)" style="
                       background: #f1f5f9;
                       border: none;
                       width: 30px;
@@ -215,15 +153,12 @@
                       font-weight: bold;
                       cursor: pointer;
                       color: #0f172a;
-                    "
-                  >
+                    ">
                     +
                   </button>
                 </div>
-                <span
-                  style="font-weight: 700; font-size: 1.1rem; color: #ea580c"
-                  >฿{{ (item.price * item.qty).toFixed(2) }}</span
-                >
+                <span style="font-weight: 700; font-size: 1.1rem; color: #ea580c">฿{{ (item.price * item.qty).toFixed(2)
+                }}</span>
               </div>
             </div>
           </div>
@@ -235,11 +170,7 @@
             </div>
             <div class="summary-sub-row">
               <label class="vat-toggle-label">
-                <input
-                  type="checkbox"
-                  v-model="isVatEnabled"
-                  class="vat-toggle-checkbox"
-                />
+                <input type="checkbox" v-model="isVatEnabled" class="vat-toggle-checkbox" />
                 ภาษีมูลค่าเพิ่ม (VAT 7%)
               </label>
               <span>฿{{ cartVatAmount.toFixed(2) }}</span>
@@ -275,21 +206,15 @@
               <span>฿{{ cartGrandTotal.toFixed(2) }}</span>
             </div>
 
-            <div
-              style="
+            <div style="
                 margin-bottom: 0.5rem;
                 font-weight: 600;
                 font-size: 0.95rem;
                 color: var(--text-main);
-              "
-            >
+              ">
               เบอร์สมาชิก (Member Phone)
             </div>
-            <input
-              type="tel"
-              v-model="memberPhone"
-              placeholder="กรอกเบอร์โทรศัพท์ (ถ้ามี)"
-              style="
+            <input type="tel" v-model="memberPhone" placeholder="กรอกเบอร์โทรศัพท์ (ถ้ามี)" style="
                 width: 100%;
                 padding: 10px 12px;
                 border-radius: 6px;
@@ -302,137 +227,95 @@
                 box-sizing: border-box;
                 outline: none;
                 transition: all 0.3s;
-              "
-              onfocus="this.style.borderColor='var(--primary-color)'; this.style.backgroundColor='#ffffff';"
-              onblur="this.style.borderColor='var(--border-color)'; this.style.backgroundColor='#f8fafc';"
-            />
+              " onfocus="this.style.borderColor='var(--primary-color)'; this.style.backgroundColor='#ffffff';"
+              onblur="this.style.borderColor='var(--border-color)'; this.style.backgroundColor='#f8fafc';" />
 
-            <div
-              style="
+            <div style="
                 margin-bottom: 0.5rem;
                 font-weight: 600;
                 font-size: 0.95rem;
                 color: var(--text-main);
-              "
-            >
+              ">
               วิธีการชำระเงิน
             </div>
-            <select
-              class="payment-type-select"
-              v-model="paymentMethod"
-              @change="resetWarningUI"
-            >
+            <select class="payment-type-select" v-model="paymentMethod" @change="resetWarningUI">
               <option value="cash">เงินสด (Cash)</option>
               <option value="scan">สแกนจ่าย (QR PromptPay)</option>
             </select>
 
             <div v-if="paymentMethod === 'cash'">
-              <div
-                style="
+              <div style="
                   margin-bottom: 0.5rem;
                   font-weight: 600;
                   font-size: 0.95rem;
                   color: var(--text-main);
-                "
-              >
+                ">
                 รับเงินสด (บาท)
               </div>
-              <input
-                type="number"
-                class="input-received"
-                v-model="amountReceived"
-                placeholder="0.00"
-                ref="receivedInput"
-                :style="{ borderColor: receivedInputColor }"
-              />
-              <div
-                v-if="isAmountWarning"
-                style="
+              <input type="number" class="input-received" v-model="amountReceived" placeholder="0.00"
+                ref="receivedInput" :style="{ borderColor: receivedInputColor }" />
+              <div v-if="isAmountWarning" style="
                   color: var(--danger-color);
                   font-size: 0.85rem;
                   margin-top: 4px;
                   text-align: right;
                   font-weight: 500;
-                "
-              >
+                ">
                 * จำนวนเงินรับมาไม่เพียงพอ
               </div>
 
-              <div
-                style="
+              <div style="
                   margin-top: 1rem;
                   display: flex;
                   flex-direction: column;
                   align-items: flex-end;
-                "
-              >
-                <div
-                  style="
+                ">
+                <div style="
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
                     width: 100%;
-                  "
-                >
-                  <span
-                    style="
+                  ">
+                  <span style="
                       font-weight: 600;
                       font-size: 1.1rem;
                       color: var(--text-main);
-                    "
-                    >เงินทอน:</span
-                  >
-                  <span
-                    class="change-display"
-                    :style="{
-                      color: changeAmountColor,
-                      fontSize: '1.2rem',
-                      fontWeight: 'bold',
-                    }"
-                  >
+                    ">เงินทอน:</span>
+                  <span class="change-display" :style="{
+                    color: changeAmountColor,
+                    fontSize: '1.2rem',
+                    fontWeight: 'bold',
+                  }">
                     ฿{{ changeAmount.toFixed(2) }}
                   </span>
                 </div>
-                <div
-                  v-if="changeAmount > 0"
-                  class="change-breakdown-box"
-                  style="
+                <div v-if="changeAmount > 0" class="change-breakdown-box" style="
                     display: block;
                     font-size: 0.9rem;
                     margin-top: 8px;
                     width: 100%;
                     text-align: right;
-                  "
-                  v-html="changeBreakdown"
-                ></div>
+                  " v-html="changeBreakdown"></div>
               </div>
             </div>
 
-            <div
-              v-else
-              style="
+            <div v-else style="
                 text-align: center;
                 padding: 1.5rem;
                 background: #f8fafc;
                 border-radius: 6px;
                 border: 1px dashed #cbd5e1;
-              "
-            >
-              <span
-                style="
+              ">
+              <span style="
                   color: var(--primary-color);
                   font-weight: 600;
                   font-size: 1.05rem;
-                "
-                >รอสแกนชำระเงิน...</span
-              >
-              <p
-                style="
+                ">รอสแกนชำระเงิน...</span>
+              <p style="
                   font-size: 0.9rem;
                   color: var(--text-muted);
                   margin-top: 8px;
-                "
-              >
+                ">
                 ระบบกำลังตรวจสอบยอดเงินเข้า<br />หรือกด "ยืนยันการชำระเงิน"
                 หากโอนสำเร็จแล้ว
               </p>
@@ -450,30 +333,24 @@
         </div>
 
         <div v-else class="modal-content-wrapper">
-          <div
-            class="modal-body success-screen"
-            style="
+          <div class="modal-body success-screen" style="
               display: flex;
               flex-direction: column;
               align-items: center;
               justify-content: center;
-            "
-          >
+            ">
             <div class="success-icon" style="font-size: 3rem; color: #10b981">
               ✓
             </div>
             <h2 style="font-size: 1.25rem; margin-top: 10px">
               ชำระเงินสำเร็จเรียบร้อย
             </h2>
-            <p
-              style="
+            <p style="
                 margin: 15px 0;
                 color: var(--text-muted);
                 font-size: 0.95rem;
                 text-align: center;
-              "
-              v-html="successDetailText"
-            ></p>
+              " v-html="successDetailText"></p>
           </div>
           <div class="modal-footer">
             <button class="btn-block btn-primary" @click="printReceiptAction">
@@ -487,33 +364,17 @@
       </div>
     </div>
 
-    <div
-      id="receipt-print-area"
-      style="
-        display: none;
-        font-family: 'Prompt', sans-serif;
-        line-height: 1.4;
-        color: #000;
-      "
-    >
-      <div
-        class="receipt-header"
-        style="text-align: center; margin-bottom: 5px"
-      >
-        <h2
-          style="
+    <div id="receipt-print-area" style="display: none;">
+      <div class="receipt-header" style="text-align: center; margin-bottom: 5px">
+        <h2 style="
             margin: 0 0 2px 0;
             font-size: 16px;
             font-weight: bold;
             text-transform: uppercase;
-          "
-        >
+          ">
           {{ companyInfo.name || companyName }}
         </h2>
-        <p
-          v-if="companyInfo.acc_maincom_name"
-          style="margin: 2px 0; font-size: 13px; font-weight: bold"
-        >
+        <p v-if="companyInfo.acc_maincom_name" style="margin: 2px 0; font-size: 13px; font-weight: bold">
           {{ companyInfo.acc_maincom_name }}
         </p>
         <p style="margin: 2px 0; font-size: 13px; padding: 0 10px">
@@ -528,100 +389,80 @@
 
         <div style="border-top: 1px dashed #000; margin: 8px 0 4px 0"></div>
 
-        <p
-          style="
+        <p style="
             margin: 4px 0;
             font-size: 14px;
             font-weight: bold;
             text-align: center;
-          "
-        >
+          ">
           ใบกำกับภาษีอย่างย่อ/ใบเสร็จรับเงิน
         </p>
         <p style="margin: 2px 0; font-size: 13px; text-align: left">
           Ref: {{ receiptData.ref }}
         </p>
 
-        <div
-          style="
+        <div style="
             display: flex;
             justify-content: space-between;
             font-size: 13px;
             margin-top: 4px;
-          "
-        >
+          ">
           <span>พนักงานขาย</span>
           <span>{{ currentUsername }}</span>
         </div>
-        <div
-          style="
+        <div style="
             display: flex;
             justify-content: space-between;
             font-size: 13px;
             margin-top: 2px;
-          "
-        >
+          ">
           <span>วันที่</span>
           <span>{{ formatThaiDate(receiptData.date) }}</span>
         </div>
       </div>
 
-      <table
-        class="receipt-table"
-        style="
+      <table class="receipt-table" style="
           width: 100%;
           border-collapse: collapse;
           margin-top: 5px;
           font-size: 13px;
-        "
-      >
+        ">
         <thead>
-          <tr
-            style="border-top: 1px dashed #000; border-bottom: 1px dashed #000"
-          >
-            <th
-              style="
+          <tr style="border-top: 1px dashed #000; border-bottom: 1px dashed #000">
+            <th style="
                 text-align: left;
                 padding: 6px 0;
                 font-weight: bold;
                 width: 55%;
-              "
-            >
+              ">
               รายการ
             </th>
-            <th
-              style="
+            <th style="
                 text-align: center;
                 padding: 6px 0;
                 font-weight: bold;
                 width: 15%;
-              "
-            >
+              ">
               จน.
             </th>
-            <th
-              style="
+            <th style="
                 text-align: right;
                 padding: 6px 0;
                 font-weight: bold;
                 width: 30%;
-              "
-            >
+              ">
               รวม
             </th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="item in receiptData.items" :key="item.id">
-            <td
-              class="item-name-col"
-              style="
+            <td class="item-name-col" style="
                 text-align: left;
                 padding: 5px 0;
                 word-break: break-word;
                 line-height: 1.2;
-              "
-            >
+              ">
               {{ item.name }}
             </td>
             <td style="text-align: center; padding: 5px 0; vertical-align: top">
@@ -634,74 +475,59 @@
         </tbody>
       </table>
 
-      <div
-        class="receipt-total-section"
-        style="font-size: 13px; margin-top: 5px"
-      >
+      <div class="receipt-total-section" style="font-size: 13px; margin-top: 5px">
         <div style="border-top: 1px dashed #000; margin: 4px 0 6px 0"></div>
 
-        <div
-          style="
+        <div style="
             display: flex;
             justify-content: space-between;
             margin-bottom: 5px;
-          "
-        >
+          ">
           <span>ยอดรวม / Subtotal:</span>
           <span>{{ receiptData.subtotal?.toFixed(2) }}</span>
         </div>
-        <div
-          style="
+        <div style="
             display: flex;
             justify-content: space-between;
             margin-bottom: 5px;
-          "
-        >
+          ">
           <span>ภาษี / VAT:</span>
           <span>{{ receiptData.vat?.toFixed(2) }}</span>
         </div>
 
         <div style="border-top: 1px dashed #000; margin: 6px 0"></div>
 
-        <div
-          style="
+        <div style="
             display: flex;
             justify-content: space-between;
             margin-bottom: 5px;
             font-weight: bold;
             font-size: 14px;
-          "
-        >
+          ">
           <span>สุทธิ / Grand Total:</span>
           <span>{{ receiptData.total?.toFixed(2) }}</span>
         </div>
-        <div
-          style="
+        <div style="
             display: flex;
             justify-content: space-between;
             margin-bottom: 5px;
-          "
-        >
+          ">
           <span>ช่องทาง / Method:</span>
           <span>{{ receiptData.method }}</span>
         </div>
-        <div
-          style="
+        <div style="
             display: flex;
             justify-content: space-between;
             margin-bottom: 5px;
-          "
-        >
+          ">
           <span>รับเงิน / Received:</span>
           <span>{{ receiptData.received?.toFixed(2) }}</span>
         </div>
-        <div
-          style="
+        <div style="
             display: flex;
             justify-content: space-between;
             margin-bottom: 5px;
-          "
-        >
+          ">
           <span>เงินทอน / Change:</span>
           <span>{{ receiptData.change?.toFixed(2) }}</span>
         </div>
@@ -709,15 +535,12 @@
         <div style="border-top: 1px dashed #000; margin: 6px 0"></div>
       </div>
 
-      <div
-        class="receipt-footer"
-        style="
+      <div class="receipt-footer" style="
           text-align: center;
           font-size: 13px;
           margin-top: 10px;
           line-height: 1.3;
-        "
-      >
+        ">
         <p style="margin: 0">ขอบคุณที่ใช้บริการ</p>
         <p style="margin: 0; font-weight: 500">Thank You</p>
       </div>
@@ -1220,6 +1043,7 @@ export default {
   z-index: 9999;
   backdrop-filter: blur(2px);
 }
+
 .spinner {
   width: 45px;
   height: 45px;
@@ -1228,6 +1052,7 @@ export default {
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -1237,75 +1062,15 @@ export default {
 .toast-success {
   background-color: #10b981;
 }
+
 .toast-error {
   background-color: #ef4444;
 }
+
 .toast-warning {
   background-color: #f59e0b;
 }
 
-/* จัดการหน้าจอพรีวิวและการสั่งพิมพ์ใบเสร็จ */
-/* --- แทนที่ @media print เดิมทั้งหมดด้วยชุดนี้ --- */
-@media print {
-  /* 1. ยกเลิกรูปแบบ Flexbox และความสูงของหน้าจอหลัก เพื่อไม่ให้ใบเสร็จไปกระจุกตรงกลาง */
-  html,
-  body,
-  .pos-wrapper {
-    display: block !important;
-    height: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: white !important;
-  }
-
-  /* 2. ซ่อน UI ระบบทั้งหมด */
-  #pos-screen,
-  .modal-overlay,
-  #toast-container,
-  #loading-overlay {
-    display: none !important;
-  }
-
-  /* 3. ตั้งค่าพื้นที่พิมพ์ใบเสร็จให้อยู่บนสุด และกว้างเต็มหน้ากระดาษที่เลือก */
-  #receipt-print-area {
-    display: block !important;
-    position: static !important; /* ให้ไหลไปตามลำดับปกติ (ชิดซ้ายบน) */
-    width: 100% !important; /* ให้เต็มความกว้างของกระดาษ 80mm */
-    margin: 0 !important;
-    padding: 2mm 4mm !important; /* เว้นขอบซ้ายขวานิดหน่อยให้อ่านง่าย */
-    box-sizing: border-box !important;
-  }
-
-  /* 4. ปรับขนาดฟอนต์ให้ใหญ่ขึ้นและชัดเจนขึ้น */
-  #receipt-print-area,
-  #receipt-print-area * {
-    color: #000000 !important;
-    font-family: 'Prompt', sans-serif !important;
-    visibility: visible !important;
-  }
-
-  .receipt-header h2 {
-    font-size: 18px !important;
-  }
-
-  .receipt-header p,
-  .receipt-table th,
-  .receipt-table td,
-  .receipt-total-section,
-  .receipt-footer {
-    font-size: 14px !important;
-  }
-
-  .receipt-table {
-    width: 100% !important;
-    table-layout: fixed !important;
-  }
-
-  /* 5. ปล่อยให้เครื่องปริ้นจัดการความยาวหน้ากระดาษเอง */
-  @page {
-    margin: 0;
-  }
-}
 /* --- ชุดคำสั่งแก้ไข Modal ให้สมดุลและแสดง Scrollbar ได้อย่างถูกต้อง --- */
 .modal-overlay {
   position: fixed;
@@ -1324,8 +1089,10 @@ export default {
 .modal-content-wrapper {
   display: flex;
   flex-direction: column;
-  flex: 1; /* ให้ยืดเต็มพื้นที่ของ modal-box */
-  min-height: 0; /* จุดสำคัญ: บังคับให้เกิด Scrollbar ไม่ให้ดันกล่องทะลุจอ */
+  flex: 1;
+  /* ให้ยืดเต็มพื้นที่ของ modal-box */
+  min-height: 0;
+  /* จุดสำคัญ: บังคับให้เกิด Scrollbar ไม่ให้ดันกล่องทะลุจอ */
 }
 
 .modal-header {
@@ -1335,23 +1102,29 @@ export default {
   color: #0f172a;
   border-bottom: 1px solid #e2e8f0;
   background-color: #f8fafc;
-  flex-shrink: 0; /* ห้ามส่วนหัวถูกบีบ */
+  flex-shrink: 0;
+  /* ห้ามส่วนหัวถูกบีบ */
 }
 
 .modal-body {
   padding: 20px;
-  overflow-y: auto; /* ให้มี Scrollbar แนวตั้ง */
-  flex: 1; /* ให้ใช้พื้นที่ตรงกลางทั้งหมด */
-  min-height: 0; /* จุดสำคัญ: อนุญาตให้ย่อตัวได้เพื่อแสดง Scroll */
+  overflow-y: auto;
+  /* ให้มี Scrollbar แนวตั้ง */
+  flex: 1;
+  /* ให้ใช้พื้นที่ตรงกลางทั้งหมด */
+  min-height: 0;
+  /* จุดสำคัญ: อนุญาตให้ย่อตัวได้เพื่อแสดง Scroll */
 }
 
 .modal-footer {
   padding: 15px 20px;
   border-top: 1px solid #e2e8f0;
   background-color: #f8fafc;
-  flex-shrink: 0; /* ห้ามส่วนท้ายถูกบีบจนปุ่มแหว่ง */
+  flex-shrink: 0;
+  /* ห้ามส่วนท้ายถูกบีบจนปุ่มแหว่ง */
   display: flex;
-  flex-direction: column; /* เปลี่ยนให้ปุ่มเรียงจากบนลงล่างตามในรูป */
+  flex-direction: column;
+  /* เปลี่ยนให้ปุ่มเรียงจากบนลงล่างตามในรูป */
   gap: 10px;
 }
 
@@ -1375,14 +1148,128 @@ export default {
 .modal-body::-webkit-scrollbar {
   width: 6px;
 }
+
 .modal-body::-webkit-scrollbar-track {
   background: #f1f5f9;
 }
+
 .modal-body::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 4px;
 }
+
 .modal-body::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+</style>
+
+
+<style>
+@media print {
+  /* 1. รีเซ็ตขอบกระดาษ */
+  @page { margin: 0; }
+  
+  /* 2. ล็อกความกว้างของโครงสร้างให้เป็น 80mm เป๊ะๆ */
+  html, body, #app, .pos-wrapper {
+    display: block !important;
+    position: static !important;
+    width: 80mm !important;
+    max-width: 80mm !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+  }
+
+  /* 3. ซ่อนหน้าจอ POS UI */
+  #pos-screen, .modal-overlay, #toast-container, #loading-overlay {
+    display: none !important;
+  }
+
+  /* 4. พื้นที่ใบเสร็จ - กางเต็ม 80mm และปรับขอบซ้ายขวา */
+  #receipt-print-area {
+    display: block !important;
+    visibility: visible !important;
+    width: 80mm !important;
+    max-width: 80mm !important;
+    padding: 4mm 5mm !important; /* ปรับขอบให้พอดีกระดาษ */
+    box-sizing: border-box !important;
+    color: #000000 !important;
+    font-family: 'Prompt', sans-serif !important;
+    line-height: 1.5 !important;
+  }
+
+  /* --- 5. Header (ขยายฟอนต์ให้ใหญ่ขึ้น) --- */
+  .receipt-header {
+    text-align: center !important;
+    margin-bottom: 10px !important;
+  }
+
+  .receipt-header h2 {
+    font-size: 24px !important; /* ชื่อร้านใหญ่สะใจ */
+    font-weight: bold !important;
+    margin: 0 0 5px 0 !important;
+  }
+
+  .receipt-header p {
+    margin: 2px 0 !important;
+    font-size: 15px !important; /* วันที่และเลขใบเสร็จ */
+  }
+
+  /* --- 6. ตารางรายการสินค้า --- */
+  .receipt-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin-bottom: 10px !important;
+    border-top: 1px dashed #000 !important;
+    border-bottom: 1px dashed #000 !important; 
+  }
+
+  .receipt-table th {
+    padding: 6px 0 !important;
+    border-bottom: 1px dashed #000 !important;
+    font-size: 15px !important; /* หัวตารางใหญ่ขึ้น */
+  }
+
+  .receipt-table td {
+    padding: 6px 0 !important;
+    font-size: 15px !important; /* เนื้อหารายการใหญ่ขึ้น */
+  }
+
+  /* จัดตำแหน่งคอลัมน์เหมือนเดิม */
+  .receipt-table th:nth-child(1), .receipt-table td:nth-child(1) { width: 15% !important; text-align: left !important; }
+  .receipt-table th:nth-child(2), .receipt-table td:nth-child(2) { width: 55% !important; text-align: left !important; }
+  .receipt-table th:nth-child(3), .receipt-table td:nth-child(3) { width: 30% !important; text-align: right !important; }
+
+  /* --- 7. ส่วนสรุปยอด (Total Section) --- */
+  .receipt-total-section {
+    margin-bottom: 10px !important;
+  }
+
+  .receipt-total-section div,
+  .receipt-total-section p {
+    display: flex !important;
+    justify-content: space-between !important;
+    margin: 4px 0 !important;
+    font-size: 15px !important;
+  }
+
+  .receipt-total-section .grand-total,
+  .receipt-total-section strong {
+    font-size: 18px !important; /* ยอดรวมเด่นๆ */
+    font-weight: bold !important;
+    padding: 8px 0 !important;
+    margin: 8px 0 !important;
+    border-top: 1px dashed #000 !important;
+    border-bottom: 1px dashed #000 !important;
+  }
+
+  /* --- 8. Footer (คำขอบคุณ) --- */
+  .receipt-footer {
+    text-align: center !important;
+    font-size: 15px !important;
+    margin-top: 10px !important;
+  }
 }
 </style>
