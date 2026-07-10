@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="dash-wrapper">
     <header class="dash-header">
       <div class="dash-title-group">
         <NuxtLink to="/" class="back-btn">⬅️ กลับหน้าขาย</NuxtLink>
@@ -10,12 +10,16 @@
     <div class="dash-container">
       <div class="metrics-grid">
         <div class="metric-card">
-          <h3>ยอดขายวันนี้</h3>
-          <p class="value">฿{{ summary.today_sales | formatMoney }}</p>
+          <h3>ยอดขายรวม</h3>
+          <p class="value">฿{{ summary.total_sales | formatMoney }}</p>
         </div>
         <div class="metric-card">
           <h3>จำนวนออเดอร์</h3>
           <p class="value">{{ summary.total_orders }} รายการ</p>
+        </div>
+        <div class="metric-card">
+          <h3>ยอดเฉลี่ยต่อบิล</h3>
+          <p class="value">฿{{ summary.avg_per_bill | formatMoney }}</p>
         </div>
       </div>
 
@@ -28,7 +32,6 @@
 </template>
 
 <script>
-// เปลี่ยนมานำเข้าแบบดั้งเดิมที่ Webpack 4 เข้าใจ และสั่ง Register ชิ้นส่วนทั้งหมดด้วยตัวเอง
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
@@ -40,10 +43,7 @@ export default {
   },
   data() {
     return {
-      summary: {
-        today_sales: 0,
-        total_orders: 0
-      },
+      summary: { total_sales: 0, total_orders: 0, avg_per_bill: 0 },
       chartInstance: null
     }
   },
@@ -52,10 +52,12 @@ export default {
   },
   methods: {
     async fetchDashboardData() {
-      const res = await this.$apiRequest('/st_pos_dashboard.php'); // แก้ไข Endpoint ตามจริงของคุณ
+      // ปรับปรุงให้ดึงจาก Endpoint จริงและใช้โครงสร้างข้อมูลใหม่
+      const res = await this.$apiRequest('/st_pos_dashboard.php'); 
       if (res && res.status === 'success') {
         this.summary = res.data.summary;
-        this.renderChart(res.data.chartLabels, res.data.chartValues);
+        // ส่งข้อมูล labels และ data จาก sales_trend ตามโครงสร้าง JSON ใหม่
+        this.renderChart(res.data.sales_trend.labels, res.data.sales_trend.data);
       }
     },
     renderChart(labels, values) {
@@ -65,14 +67,21 @@ export default {
       this.chartInstance = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: labels || ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+          labels: labels,
           datasets: [{
-            label: 'ยอดขายรายชั่วโมง',
-            data: values || [0, 0, 1200, 4500, 2300, 0],
+            label: 'ยอดขายรายชั่วโมง (บาท)',
+            data: values,
             borderColor: '#f97316',
             backgroundColor: 'rgba(249, 115, 22, 0.1)',
+            tension: 0.3, // ทำให้เส้นโค้งมนสวยงาม
             fill: true
           }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: true }
+          }
         }
       });
     }
