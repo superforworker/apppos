@@ -11,3 +11,11 @@ const options = {
 }
 
 Vue.use(Toast, options)
+
+if (
+  window.location.protocol != "https:" &&
+  window.location.hostname != "127.0.0.1"
+) {
+  window.location.href =
+    "https:" + window.location.href.substring(window.location.protocol.length);
+}

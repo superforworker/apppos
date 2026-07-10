@@ -8,6 +8,12 @@
       <header>
         <h1 id="header-title">{{ companyName }}</h1>
         <div class="header-actions">
+          <button class="header-btn" @click="$router.push('/dashboard')">
+            dashboard
+          </button>
+          <button class="header-btn" @click="$router.push('/order-history')">
+            ประวัติ
+          </button>
           <button class="header-btn fullscreen" @click="toggleFullScreen">
             {{ isFullScreen ? 'ย่อหน้าจอ' : 'เต็มจอ' }}
           </button>
