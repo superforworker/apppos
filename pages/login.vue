@@ -51,13 +51,12 @@ export default {
       });
 
       if (response.status === 'success' && response.data) {
-        const currentAuthToken = `${response.data.code}:${response.data.team}:${response.data.type}`;
+        const currentAuthToken = `${response.data.code}:${response.data.team}:${response.data.type}:${response.data.token}`;
         const companyName = response.data.company || 'SIAMPOS';
         
         localStorage.setItem('siampos_auth_token', currentAuthToken);
         localStorage.setItem('siampos_username', this.username);
         localStorage.setItem('siampos_company', companyName);
-        
         this.$router.push('/');
       } else {
         alert(response.msg || 'รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง');
