@@ -41,7 +41,7 @@ export default {
   methods: {
     async authenticate() {
       if (!this.username || !this.password) {
-        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+        Swal.fire({ icon: 'warning', title: 'กรอกข้อมูลให้ครบถ้วน', text: 'กรุณากรอกชื่อผู้ใช้งานและรหัสผ่าน', confirmButtonText: 'ตกลง' });
         return;
       }
 
@@ -59,7 +59,7 @@ export default {
         localStorage.setItem('siampos_company', companyName);
         this.$router.push('/');
       } else {
-        alert(response.msg || 'รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง');
+        Swal.fire({ icon: 'error', title: 'เข้าสู่ระบบไม่สำเร็จ', text: response.msg || 'รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง', confirmButtonText: 'ตกลง' });
       }
     }
   }

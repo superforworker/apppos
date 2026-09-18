@@ -811,9 +811,19 @@ export default {
     removeFromCart(index) {
       this.cart.splice(index, 1)
     },
-    clearCart() {
+    async clearCart() {
       if (this.cart.length === 0) return
-      if (confirm('ยืนยันการล้างตะกร้าสินค้าทั้งหมด?')) {
+      const result = await Swal.fire({
+        icon: 'warning',
+        title: 'ล้างตะกร้าสินค้า',
+        text: 'ยืนยันการล้างรายการสั่งซื้อทั้งหมด?',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'ล้างเลย',
+        cancelButtonText: 'ยกเลิก'
+      })
+      if (result.isConfirmed) {
         this.cart = []
         this.$toast.warning('ล้างรายการสั่งซื้อเรียบร้อย')
       }
@@ -958,7 +968,18 @@ export default {
       }
     },
 
-    logout() {
+    async logout() {
+      const result = await Swal.fire({
+        icon: 'question',
+        title: 'ออกจากระบบ',
+        text: 'ยืนยันการออกจากระบบ?',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'ออกจากระบบ',
+        cancelButtonText: 'ยกเลิก'
+      })
+      if (!result.isConfirmed) return
       localStorage.removeItem('siampos_auth_token')
       localStorage.removeItem('siampos_company')
       this.$router.push('/login')

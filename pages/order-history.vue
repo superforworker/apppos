@@ -324,6 +324,7 @@ export default {
       } catch (error) {
         console.error(error);
         this.orders = [];
+        Swal.fire({ icon: 'error', title: 'โหลดข้อมูลไม่สำเร็จ', text: 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่', confirmButtonText: 'ตกลง' });
       } finally {
         this.isLoading = false;
       }
