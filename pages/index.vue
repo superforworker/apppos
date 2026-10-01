@@ -422,8 +422,8 @@
             font-size: 13px;
             margin-top: 2px;
           ">
-          <span>วันที่</span>
-          <span>{{ formatThaiDate(receiptData.date) }}</span>
+          <!-- <span>วันที่</span>
+          <span>{{ formatThaiDate(receiptData.date) }}</span> -->
         </div>
       </div>
 
@@ -1193,11 +1193,17 @@ export default {
 
 <style>
 @media print {
+
   /* 1. รีเซ็ตขอบกระดาษ */
-  @page { margin: 0; }
-  
+  @page {
+    margin: 0;
+  }
+
   /* 2. ล็อกความกว้างของโครงสร้างให้เป็น 80mm เป๊ะๆ */
-  html, body, #app, .pos-wrapper {
+  html,
+  body,
+  #app,
+  .pos-wrapper {
     display: block !important;
     position: static !important;
     width: 80mm !important;
@@ -1210,7 +1216,10 @@ export default {
   }
 
   /* 3. ซ่อนหน้าจอ POS UI */
-  #pos-screen, .modal-overlay, #toast-container, #loading-overlay {
+  #pos-screen,
+  .modal-overlay,
+  #toast-container,
+  #loading-overlay {
     display: none !important;
   }
 
@@ -1220,7 +1229,8 @@ export default {
     visibility: visible !important;
     width: 80mm !important;
     max-width: 80mm !important;
-    padding: 4mm 5mm !important; /* ปรับขอบให้พอดีกระดาษ */
+    padding: 4mm 5mm !important;
+    /* ปรับขอบให้พอดีกระดาษ */
     box-sizing: border-box !important;
     color: #000000 !important;
     font-family: 'Prompt', sans-serif !important;
@@ -1234,14 +1244,16 @@ export default {
   }
 
   .receipt-header h2 {
-    font-size: 24px !important; /* ชื่อร้านใหญ่สะใจ */
+    font-size: 24px !important;
+    /* ชื่อร้านใหญ่สะใจ */
     font-weight: bold !important;
     margin: 0 0 5px 0 !important;
   }
 
   .receipt-header p {
     margin: 2px 0 !important;
-    font-size: 15px !important; /* วันที่และเลขใบเสร็จ */
+    font-size: 15px !important;
+    /* วันที่และเลขใบเสร็จ */
   }
 
   /* --- 6. ตารางรายการสินค้า --- */
@@ -1250,24 +1262,40 @@ export default {
     border-collapse: collapse !important;
     margin-bottom: 10px !important;
     border-top: 1px dashed #000 !important;
-    border-bottom: 1px dashed #000 !important; 
+    border-bottom: 1px dashed #000 !important;
   }
 
   .receipt-table th {
     padding: 6px 0 !important;
     border-bottom: 1px dashed #000 !important;
-    font-size: 15px !important; /* หัวตารางใหญ่ขึ้น */
+    font-size: 15px !important;
+    /* หัวตารางใหญ่ขึ้น */
   }
 
   .receipt-table td {
     padding: 6px 0 !important;
-    font-size: 15px !important; /* เนื้อหารายการใหญ่ขึ้น */
+    font-size: 15px !important;
+    /* เนื้อหารายการใหญ่ขึ้น */
   }
 
   /* จัดตำแหน่งคอลัมน์เหมือนเดิม */
-  .receipt-table th:nth-child(1), .receipt-table td:nth-child(1) { width: 15% !important; text-align: left !important; }
-  .receipt-table th:nth-child(2), .receipt-table td:nth-child(2) { width: 55% !important; text-align: left !important; }
-  .receipt-table th:nth-child(3), .receipt-table td:nth-child(3) { width: 30% !important; text-align: right !important; }
+  .receipt-table th:nth-child(1),
+  .receipt-table td:nth-child(1) {
+    width: 15% !important;
+    text-align: left !important;
+  }
+
+  .receipt-table th:nth-child(2),
+  .receipt-table td:nth-child(2) {
+    width: 55% !important;
+    text-align: left !important;
+  }
+
+  .receipt-table th:nth-child(3),
+  .receipt-table td:nth-child(3) {
+    width: 30% !important;
+    text-align: right !important;
+  }
 
   /* --- 7. ส่วนสรุปยอด (Total Section) --- */
   .receipt-total-section {
@@ -1284,7 +1312,8 @@ export default {
 
   .receipt-total-section .grand-total,
   .receipt-total-section strong {
-    font-size: 18px !important; /* ยอดรวมเด่นๆ */
+    font-size: 18px !important;
+    /* ยอดรวมเด่นๆ */
     font-weight: bold !important;
     padding: 8px 0 !important;
     margin: 8px 0 !important;
