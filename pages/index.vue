@@ -422,8 +422,8 @@
             font-size: 13px;
             margin-top: 2px;
           ">
-          <!-- <span>วันที่</span>
-          <span>{{ formatThaiDate(receiptData.date) }}</span> -->
+          <span>วันที่</span>
+          <span>{{ formatThaiDate(receiptData.date) }}</span>
         </div>
       </div>
 
